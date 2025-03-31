@@ -9,6 +9,11 @@ function updateAttributes(target, originNewProps, originOldProps) {
       continue;
     }
 
+    if (attr === "className") {
+      target.setAttribute("class", value);
+      return;
+    }
+
     target.setAttribute(attr, value);
   }
 
@@ -18,6 +23,11 @@ function updateAttributes(target, originNewProps, originOldProps) {
       const eventType = attr.replace(/^on/i, "").toLowerCase();
       removeEvent(target, eventType, originOldProps[attr]);
       continue;
+    }
+
+    if (attr === "class") {
+      target.removeAttribute("className");
+      return;
     }
 
     target.removeAttribute(attr);
