@@ -15,7 +15,7 @@ export default ({ mode }) => {
           jsxFactory: "createVNode",
         },
       },
-      base: env.VITE_BASE_URL,
+      base: env.VITE_BASE_URL ?? "/",
     }),
     defineTestConfig({
       test: {
