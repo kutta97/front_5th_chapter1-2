@@ -96,4 +96,17 @@ export const globalStore = createStore(
       return { ...state, posts };
     },
   },
+  {
+    hasLikedPost: (state, postId) => {
+      if (!state.loggedIn) {
+        return false;
+      }
+
+      return (
+        state.posts
+          .find((post) => post.id === postId)
+          ?.likeUsers.includes(state.currentUser.username) ?? false
+      );
+    },
+  },
 );
