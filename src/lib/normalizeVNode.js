@@ -14,7 +14,7 @@ export function normalizeVNode(vNode) {
 
     return {
       ...normalized,
-      children: [...normalized.children, ...vNode.children],
+      children: [...(normalized.children ?? []), ...vNode.children],
     };
   }
 
