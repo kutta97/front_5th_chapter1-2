@@ -10,7 +10,7 @@ export const createRouter = (routes) => {
 
     return baseUrl === "/"
       ? fullPath
-      : fullPath.replace(new RegExp(`^${baseUrl}`), "/");
+      : fullPath.replace(new RegExp(`^${baseUrl}`), "");
   };
 
   const getTarget = () => {
