@@ -8,7 +8,9 @@ export const createRouter = (routes) => {
   const getPath = () => {
     const fullPath = window.location.pathname;
 
-    return fullPath.replace(new RegExp(`^${baseUrl}`), "/");
+    return baseUrl === "/"
+      ? fullPath
+      : fullPath.replace(new RegExp(`^${baseUrl}`), "/");
   };
 
   const getTarget = () => routes[getPath()];
