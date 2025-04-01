@@ -1,5 +1,6 @@
 import { createStore } from "../lib";
 import { userStorage } from "../storages";
+import { generateNewId } from "../utils/idUtils";
 
 const 초 = 1000;
 const 분 = 초 * 60;
@@ -52,6 +53,25 @@ export const globalStore = createStore(
     logout(state) {
       userStorage.reset();
       return { ...state, currentUser: null, loggedIn: false };
+    },
+    createPost(state, content) {
+      if (!state.currentUser) {
+        return { ...state };
+      }
+
+      const postIds = state.posts.map((post) => post.id);
+      const post = {
+        id: generateNewId(postIds),
+        author: state.currentUser.username,
+        time: Date.now(),
+        content,
+        likeUsers: [],
+      };
+
+      return {
+        ...state,
+        posts: [post, ...state.posts],
+      };
     },
   },
 );

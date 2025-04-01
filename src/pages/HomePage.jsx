@@ -20,7 +20,7 @@ export const HomePage = () => {
         <Navigation />
 
         <main className="p-4">
-          <PostForm />
+          {loggedIn && <PostForm />}
           <div id="posts-container" className="space-y-4">
             {[...posts]
               .sort((a, b) => b.time - a.time)
