@@ -3,7 +3,33 @@ import { createVNode } from "../../lib";
 import { toTimeFormat } from "../../utils/index.js";
 import { globalStore } from "../../stores/index.js";
 
+function likePost(postId, user) {
+  const { posts } = globalStore.getState();
+
+  const newPosts = posts.map((post) => {
+    if (post.id !== postId) return post;
+
+    if (post.likeUsers.includes(user.username)) {
+      const likeUsers = post.likeUsers.filter(
+        (likeUser) => likeUser !== user.username,
+      );
+
+      return { ...post, likeUsers };
+    }
+
+    return {
+      ...post,
+      likeUsers: [...post.likeUsers, user.username],
+    };
+  });
+
+  globalStore.setState({
+    posts: [...newPosts],
+  });
+}
+
 export const Post = ({
+  id,
   author,
   time,
   content,
@@ -15,7 +41,10 @@ export const Post = ({
   const handleClickLike = () => {
     if (!loggedIn) {
       alert("로그인 후 이용해주세요");
+      return;
     }
+
+    likePost(id, currentUser);
   };
 
   return (
