@@ -1,6 +1,7 @@
 import { createStore } from "../lib";
 import { userStorage } from "../storages";
 import { generateNewId } from "../utils/idUtils";
+import { addItem, removeItem } from "../utils/arrayUtils";
 
 const 초 = 1000;
 const 분 = 초 * 60;
@@ -55,7 +56,7 @@ export const globalStore = createStore(
       return { ...state, currentUser: null, loggedIn: false };
     },
     createPost(state, content) {
-      if (!state.currentUser) {
+      if (!state.loggedIn) {
         return { ...state };
       }
 
@@ -72,6 +73,27 @@ export const globalStore = createStore(
         ...state,
         posts: [post, ...state.posts],
       };
+    },
+    toggleLikePost(state, postId) {
+      if (!state.loggedIn) {
+        return { ...state };
+      }
+
+      const posts = state.posts.map((post) => {
+        if (post.id !== postId) return post;
+
+        const username = state.currentUser.username;
+        const hasItem = post.likeUsers.includes(state.currentUser.username);
+
+        return {
+          ...post,
+          likeUsers: hasItem
+            ? removeItem(post.likeUsers, username)
+            : addItem(post.likeUsers, username),
+        };
+      });
+
+      return { ...state, posts };
     },
   },
 );
