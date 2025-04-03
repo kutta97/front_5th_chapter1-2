@@ -1,23 +1,24 @@
 const eventHandlers = new Map();
-const rootEventListeners = new WeakMap();
+const registeredEventHandlers = new Map();
 
 export function setupEventListeners(root) {
-  if (!rootEventListeners.has(root)) {
-    rootEventListeners.set(root, new Map());
-  }
-  const registeredEvents = rootEventListeners.get(root);
+  registeredEventHandlers.forEach((handler, eventType) => {
+    root.removeEventListener(eventType, handler);
+  });
+
+  registeredEventHandlers.clear();
 
   eventHandlers.forEach((elementsMap, eventType) => {
-    if (!registeredEvents.has(eventType)) {
-      const listener = (event) => {
-        if (elementsMap.has(event.target)) {
-          const eventHandlerSet = elementsMap.get(event.target);
-          eventHandlerSet.forEach((eventHandler) => eventHandler(event));
-        }
-      };
-      root.addEventListener(eventType, listener);
-      registeredEvents.set(eventType, listener);
-    }
+    const eventHandler = (event) => {
+      if (!elementsMap.has(event.target)) {
+        return;
+      }
+      const eventHandlerSet = elementsMap.get(event.target);
+      eventHandlerSet.forEach((eventHandler) => eventHandler(event));
+    };
+
+    root.addEventListener(eventType, eventHandler);
+    registeredEventHandlers.set(eventType, eventHandler);
   });
 }
 
