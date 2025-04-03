@@ -11,7 +11,7 @@ function updateAttributes(target, originNewProps, originOldProps) {
 
     if (attr === "className") {
       target.setAttribute("class", value);
-      return;
+      continue;
     }
 
     target.setAttribute(attr, value);
@@ -25,9 +25,9 @@ function updateAttributes(target, originNewProps, originOldProps) {
       continue;
     }
 
-    if (attr === "class") {
-      target.removeAttribute("className");
-      return;
+    if (attr === "className") {
+      target.removeAttribute("class");
+      continue;
     }
 
     target.removeAttribute(attr);
