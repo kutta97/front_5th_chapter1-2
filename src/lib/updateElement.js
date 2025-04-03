@@ -66,22 +66,22 @@ export function updateElement(parentElement, newNode, oldNode, index = 0) {
 
   // 속성 업데이트
   updateAttributes(
-    parentElement.childNodes[index],
+    parentElement?.childNodes?.[index],
     newNode.props ?? {},
     oldNode.props ?? {},
   );
 
   // 자식 노드 재귀적 업데이트
   const maxLength = Math.max(
-    (newNode.children || []).length,
-    (oldNode.children || []).length,
+    (newNode?.children ?? []).length,
+    (oldNode?.children ?? []).length,
   );
 
   for (let i = 0; i < maxLength; i++) {
     updateElement(
-      parentElement.childNodes[index],
-      (newNode.children || [])[i],
-      (oldNode.children || [])[i],
+      parentElement?.childNodes?.[index],
+      (newNode?.children ?? [])[i],
+      (oldNode?.children ?? [])[i],
       i,
     );
   }
