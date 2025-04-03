@@ -10,7 +10,6 @@ const 시간 = 분 * 60;
 export const globalStore = createStore(
   {
     currentUser: userStorage.get(),
-    loggedIn: Boolean(userStorage.get()),
     posts: [
       {
         id: 1,
@@ -53,10 +52,10 @@ export const globalStore = createStore(
   {
     logout(state) {
       userStorage.reset();
-      return { ...state, currentUser: null, loggedIn: false };
+      return { ...state, currentUser: null };
     },
     createPost(state, content) {
-      if (!state.loggedIn) {
+      if (!state.currentUser) {
         return { ...state };
       }
 
@@ -75,7 +74,7 @@ export const globalStore = createStore(
       };
     },
     toggleLikePost(state, postId) {
-      if (!state.loggedIn) {
+      if (!state.currentUser) {
         return { ...state };
       }
 
@@ -98,7 +97,7 @@ export const globalStore = createStore(
   },
   {
     hasLikedPost: (state, postId) => {
-      if (!state.loggedIn) {
+      if (!state.currentUser) {
         return false;
       }
 
@@ -108,5 +107,6 @@ export const globalStore = createStore(
           ?.likeUsers.includes(state.currentUser.username) ?? false
       );
     },
+    loggedIn: (state) => Boolean(state.currentUser),
   },
 );

@@ -11,11 +11,11 @@ export const Post = ({
   likeUsers,
   activationLike = false,
 }) => {
-  const { loggedIn } = globalStore.getState();
+  const { loggedIn } = globalStore.selectors;
   const { toggleLikePost } = globalStore.actions;
 
   const handleLikeToggle = () => {
-    if (!loggedIn) {
+    if (!loggedIn()) {
       alert("로그인 후 이용해주세요");
       return;
     }
