@@ -14,6 +14,7 @@ export const PostForm = () => {
     }
 
     createPost(content);
+    textarea.value = "";
   };
 
   return (
